@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: project-mongo
+    ports:
+      - "27017:27017" # Maps port 27017 from the container to your local machine
+    volumes:
+      - ./mongo-data:/data/db # Mounts local volume to persist data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
