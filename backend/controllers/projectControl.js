@@ -12,6 +12,14 @@ exports.createProject = async (req, res) => {
   }
 };
 
+exports.bulkProject =async (req,res) => {
+   try {
+      const projects= await Project.find();
+       res.json(projects);
+   }catch(e){
+    res.json({ msg:"Invalid "})
+   }
+}
 // Like a project
 exports.likeProject = async (req, res) => {
   try {

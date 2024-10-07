@@ -4,14 +4,14 @@ import { ButtonWarning } from "../components/buttonWarn"
 import { Heading } from "../components/heading"
 import { InputBox } from "../components/InputBox"
 import { SubHeading } from "../components/SubHeading"
-import { useState } from 'react';
+import React ,{ useState } from 'react';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
 export const SignUp = () => {
-    const { username ,setUsername } = useState("");
-    const { email ,setUseremail } = useState("");
-    const { password ,setPassword } = useState("");
+    const [ username ,setUsername ] = useState("");
+    const [ email ,setEmail ] = useState("");
+    const [ password ,setPassword ] = useState("");
     const navigate =useNavigate();
 
     return <div style={{
@@ -27,14 +27,17 @@ export const SignUp = () => {
          <div className="rounded-lg bg-black w-90 text-center p-2 h-max px-4 shadow-lg shadow-black">
            <Heading label={"Sign Up"}/>
            <SubHeading label={"Enter your information to create an account"}/>
-           <InputBox onChange={(e) =>{
-               setUsername(e.target.value)
+           <InputBox onChange={(e) => {
+            setUsername(e.target.value);
+            console.log(e.target.value)
            }} label={"Username"} placeholder={"John"}/>
            <InputBox onChange={(e) =>{
-               setUseremail(e.target.value)
+               setEmail(e.target.value);
+               console.log(e.target.value)
            }} label={"Email"} placeholder={"johndoe@example.com"}/>
            <InputBox onChange={(e) =>{
-               setPassword(e.target.value)
+               setPassword(e.target.value);
+               console.log(e.target.value)
            }} label={"Password"} placeholder={"123456"}/>
            <div className="pt-5">
                <Button onChange={async() => {

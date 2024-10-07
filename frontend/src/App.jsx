@@ -4,6 +4,8 @@ import './App.css'
 import { SignUp } from './pages/siginup'
 import { SignIn } from './pages/signin'
 import { Dashboard } from './pages/dashboard'
+import CalendarComponent from './pages/calender'
+import { Publish } from './pages/Publisg'
 
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
          <Route path="/signup" element={<SignUp/>}></Route>
          <Route path="/signin" element={<SignIn/>}></Route>
          <Route path="/dashboard" element={<Dashboard/>}></Route>
+         <Route path="/calender" element={<CalendarComponent/>}></Route>
+         <Route path="/publish" element={<Publish/>}></Route>
       </Routes>
     </BrowserRouter>
   )
