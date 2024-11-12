@@ -3,11 +3,18 @@
 const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  description: String,
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   teamMembers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  shares: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  comments: [
+    {
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      text: String,
+      createdAt: { type: Date, default: Date.now }
+    }
+  ],
 });
 
 const Project = mongoose.model("Project", projectSchema);

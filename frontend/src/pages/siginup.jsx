@@ -1,72 +1,97 @@
-import yourImage from '../images/bg2.jpg';
-import { Button } from "../components/button"
-import { ButtonWarning } from "../components/buttonWarn"
-import { Heading } from "../components/heading"
-import { InputBox } from "../components/InputBox"
-import { SubHeading } from "../components/SubHeading"
-import React ,{ useState } from 'react';
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
+// src/LoginModal.js
+import React, { useState } from 'react';
+import { FcGoogle } from "react-icons/fc";
 
-export const SignUp = () => {
-    const [ username ,setUsername ] = useState("");
-    const [ email ,setEmail ] = useState("");
-    const [ password ,setPassword ] = useState("");
-    const navigate =useNavigate();
+export const SignUp = ({ isOpen, onClose }) => {
+    const [step, setStep] = useState(1); // Step 1: Username/Email, Step 2: Password
+    const [email, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+  if (!isOpen) return null;
+  const handleNext = () => {
+    if (username.trim()) {
+      setStep(2); // Proceed to Step 2 if username/email is filled
+    }
+  };
 
-    return <div style={{
-        backgroundImage: `url(${yourImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        height: '100vh',
-        width: '100%'
-      }} > 
-      <div className="h-screen flex justify-center">
-        <div className="flex flex-col justify-center">
-         <div className="rounded-lg bg-black w-90 text-center p-2 h-max px-4 shadow-lg shadow-black">
-           <Heading label={"Sign Up"}/>
-           <SubHeading label={"Enter your information to create an account"}/>
-           <InputBox onChange={(e) => {
-            setUsername(e.target.value);
-            console.log(e.target.value)
-           }} label={"Username"} placeholder={"John"}/>
-           <InputBox onChange={(e) =>{
-               setEmail(e.target.value);
-               console.log(e.target.value)
-           }} label={"Email"} placeholder={"johndoe@example.com"}/>
-           <InputBox onChange={(e) =>{
-               setPassword(e.target.value);
-               console.log(e.target.value)
-           }} label={"Password"} placeholder={"123456"}/>
-           <div className="pt-5">
-               <Button onChange={async() => {
-                const res= await axios.post("http://localhost:5000/api/auth/register",{
-                    username,
-                    email,
-                    password
-                 });
-                 console.log(res.data.user)
-                 localStorage.setItem("token",res.data.token)
-                navigate("/dashboard")
-               }} label={"Sign up"}/>
-           </div>
-           <ButtonWarning label={"Already have an account?"} buttonText={"Sign in"} to={"/signin"} />
-          </div>
-          </div>
-       </div>
+  const handleLogin = async() => {
+    // Add your login logic here
+    const res= await axios.post("http://localhost:5000/api/auth/register",{
+        email,
+        password
+     });
+     console.log(res.data.token)
+     localStorage.setItem("token",res.data.token)
+     navigate("/dashboard")
+    console.log('Logging in with:', { email, password });
+    onClose(); // Close the modal after login
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-none bg-gray-900/70">
+      <div className="relative w-full max-w-md p-6 bg-black rounded-lg shadow-lg">
+        <button
+          className="absolute top-3 right-3 text-gray-400 hover:text-white"
+          onClick={onClose}
+        >
+          &times;
+        </button>
+        
+        <h2 className="text-2xl font-bold text-center text-white mb-4"> {step === 1 ? 'Sign in to X' : 'Enter Password'}</h2> 
+        {step === 1 ? (
+       <> 
+         <input
+          type="text"
+          placeholder="Phone, email, or username"
+          onChange={(e) => setUsername(e.target.value)}
+          className="w-full px-4 py-2 mb-4 text-black rounded focus:outline-none"
+         />
+        
+        <button onClick={handleNext} className="w-full px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-500">
+          Next
+        </button>
+        <div className="my-4 text-center text-gray-500">or</div>
+        <button className="flex flex-row justify-center items-center w-full px-4 py-2 mt-6 text-black bg-white rounded hover:bg-gray-300">
+          <FcGoogle className="text-xl" />
+          <span className='pl-3'>Sign in with Google</span>
+        </button>
+        </>
+       ) : (
+            <>
+              {/* Step 2: Password */}
+              <div className="mb-4">
+              <label className="block mb-1 text-gray-400"> Email</label>
+              <input
+                type="text"
+                value={email}
+                readOnly
+                className="w-full px-4 py-2 mb-2 text-gray-500 bg-gray-800 rounded cursor-not-allowed focus:outline-none"
+              />
+             </div>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 mb-4 text-black rounded focus:outline-none"
+              />
+  
+              <button
+                onClick={handleLogin}
+                className="w-full px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-500"
+              >
+                Login
+              </button>
+            </>
+       ) }
+
+            {step === 1 && (
+          <button className="w-full px-4 py-2 mt-2 text-gray-400 hover:underline">
+            Forgot password?
+          </button>
+        )}
+      </div>
     </div>
-}
+  );
+};
 
-/*
-const res= await axios.post("http://localhost:5000/api/v1/user",{
-                       username,
-                       firstname,
-                       lastname,
-                       password
-                    });
-                    console.log(res.data.token)
-                    localStorage.setItem("token",res.data.token)
-                navigate("/dashboard")
-               }} label={"Sign Up"}/>
-*/
+
