@@ -10,8 +10,17 @@ export const Dashboard = () => {
   <div className="flex flex-row">
  <Sidebar/>
  
- <div>
- <div className='grid grid-cols-10 pb-3 text-lg border-gray-700 border-b border-l-0 border-t-0 border-r-0 border-[1px]'>
+ <div className="w-[60%] border-gray-700 border-b border-l-0 border-t-0 border-r-0 border-[1px]">   
+   <Feed/>
+ </div>
+ 
+ <Trending/>
+ </div>
+ </div>
+}
+
+
+/*<div className='grid grid-cols-10 pb-3 text-lg'>
         <div className="justify-start pt-1">
          <GoArrowLeft className='text-3xl'/>
         </div>
@@ -19,9 +28,5 @@ export const Dashboard = () => {
         Post
         </div>
     </div>
- <Feed/>
- </div>
- <Trending/>
- </div>
- </div>
-}
+
+    */

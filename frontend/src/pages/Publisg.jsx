@@ -35,7 +35,7 @@ export const Publish = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       });
-      navigate("/dashboard");
+      navigate("/");
      } catch (err) {
        console.error("Error posting project:", err);
      }

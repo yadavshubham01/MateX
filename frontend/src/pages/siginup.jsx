@@ -1,14 +1,19 @@
 // src/LoginModal.js
 import React, { useState } from 'react';
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const SignUp = ({ isOpen, onClose }) => {
     const [step, setStep] = useState(1); // Step 1: Username/Email, Step 2: Password
-    const [email, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate=useNavigate()
+
   if (!isOpen) return null;
   const handleNext = () => {
-    if (username.trim()) {
+    if (email.trim()) {
       setStep(2); // Proceed to Step 2 if username/email is filled
     }
   };
@@ -17,11 +22,12 @@ export const SignUp = ({ isOpen, onClose }) => {
     // Add your login logic here
     const res= await axios.post("http://localhost:5000/api/auth/register",{
         email,
-        password
+        password,
+        username
      });
      console.log(res.data.token)
      localStorage.setItem("token",res.data.token)
-     navigate("/dashboard")
+     navigate("/create")
     console.log('Logging in with:', { email, password });
     onClose(); // Close the modal after login
   };
@@ -41,8 +47,8 @@ export const SignUp = ({ isOpen, onClose }) => {
        <> 
          <input
           type="text"
-          placeholder="Phone, email, or username"
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Phone, email ...."
+          onChange={(e) => setEmail(e.target.value)}
           className="w-full px-4 py-2 mb-4 text-black rounded focus:outline-none"
          />
         
@@ -67,6 +73,14 @@ export const SignUp = ({ isOpen, onClose }) => {
                 className="w-full px-4 py-2 mb-2 text-gray-500 bg-gray-800 rounded cursor-not-allowed focus:outline-none"
               />
              </div>
+             <input
+                type="password"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-4 py-2 mb-4 text-black rounded focus:outline-none"
+              />
+
               <input
                 type="password"
                 placeholder="Enter your password"

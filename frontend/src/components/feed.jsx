@@ -42,7 +42,7 @@ const Feed = () => {
 
   // Render each project as a Post component
   return (
-    <div className="max-w-2xl mx-auto mt-8"> 
+    <div className="max-w-2xl mx-auto mt-8 "> 
     
       {projects.map((project) => (
         <Post key={project.id} project={project} />

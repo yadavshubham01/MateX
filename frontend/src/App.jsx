@@ -6,6 +6,8 @@ import { SignIn } from './pages/signin'
 import { Dashboard } from './pages/dashboard'
 
 import { Publish } from './pages/Publisg'
+import Profile from './pages/profile'
+import CreateProfile from './pages/createProfile'
 
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
          <Route path="/signin" element={<SignIn/>}></Route>
          <Route path="/" element={<Dashboard/>}></Route>
          <Route path="/publish" element={<Publish/>}></Route>
+         <Route path="/profile" element={<Profile/>}></Route>
+         <Route path="/create" element={<CreateProfile/>}></Route>
       </Routes>
     </BrowserRouter>
   )
