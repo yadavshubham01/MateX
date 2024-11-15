@@ -26,6 +26,7 @@ const Feed = () => {
 
         const data = await response.json();
         setProjects(data);
+        console.log(data)
       } catch (err) {
         setError(err.message);
       } finally {
@@ -37,12 +38,20 @@ const Feed = () => {
   }, []);
 
   // Display loading or error message if needed
-  if (loading) return <PostSkeleton/>
+  if (loading) {
+    return <div> 
+    <PostSkeleton/>
+    <PostSkeleton/>
+    <PostSkeleton/>
+    <PostSkeleton/>
+   </div> 
+         
+  }  
   if (error) return <PostSkeleton/>;
 
   // Render each project as a Post component
   return (
-    <div className="max-w-2xl mx-auto mt-8 "> 
+    <div className=" mx-auto mt-8 "> 
     
       {projects.map((project) => (
         <Post key={project.id} project={project} />

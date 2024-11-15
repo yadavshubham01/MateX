@@ -14,43 +14,44 @@ exports.createProject = async (req, res) => {
 exports.getFeedProjects = async (req, res) => {
   try {
     const projects = await Project.find({ createdBy: { $ne: req.user._id } })
-      .populate("createdBy", "name profilePicture") // Fetch creator's name and profile picture
-      .populate("likes", "name profilePicture") // Fetch names and profile pictures of users who liked
-      .populate("shares", "name profilePicture") // Fetch names and profile pictures of users who shared
-      .populate("comments.user", "name profilePicture"); // Fetch names and profile pictures of commenters
+    .populate("createdBy", "name profilePicture") // Fetch creator's name and profile picture
+    .populate("likes", "name profilePicture") // Fetch names and profile pictures of users who liked
+    .populate("shares", "name profilePicture") // Fetch names and profile pictures of users who shared
+    .populate("comments.user", "name profilePicture"); // Fetch names and profile pictures of commenters
 
-    const formattedProjects = projects.map(project => ({
-      id: project._id,
-      title: project.title,
-      description: project.description,
-      createdBy: {
-        id: project.createdBy._id,
-        name: project.createdBy.name,
-        profilePicture: project.createdBy.profilePicture
-      },
-      likes: project.likes.map(user => ({
-        id: user._id,
-        name: user.name,
-        profilePicture: user.profilePicture
-      })),
-      shares: project.shares.map(user => ({
-        id: user._id,
-        name: user.name,
-        profilePicture: user.profilePicture
-      })),
-      comments: project.comments.map(comment => ({
-        id: comment._id,
-        text: comment.text,
-        createdAt: comment.createdAt,
-        user: {
-          id: comment.user._id,
-          name: comment.user.name,
-          profilePicture: comment.user.profilePicture
-        }
-      }))
-    }));
+  const formattedProjects = projects.map(project => ({
+    id: project._id,
+    title: project.title,
+    description: project.description,
+    createdBy: {
+      id: project.createdBy._id,
+      name: project.createdBy.name,
+      profilePicture: project.createdBy.profilePicture
+    },
+    likes: project.likes.map(user => ({
+      id: user._id,
+      name: user.name,
+      profilePicture: user.profilePicture
+    })),
+    shares: project.shares.map(user => ({
+      id: user._id,
+      name: user.name,
+      profilePicture: user.profilePicture
+    })),
+    comments: project.comments.map(comment => ({
+      id: comment._id,
+      text: comment.text,
+      createdAt: comment.createdAt,
+      user: {
+        id: comment.user._id,
+        name: comment.user.name,
+        profilePicture: comment.user.profilePicture
+      }
+    }))
+  }));
 
-    res.json(formattedProjects);
+  res.json(formattedProjects);
+    
   } catch (err) {
     console.error("Error fetching feed projects:", err);
     res.status(400).json({ error: err.message });

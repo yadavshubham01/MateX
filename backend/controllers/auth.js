@@ -35,8 +35,9 @@ exports.createProfile = async (req, res) => {
   const profileImage = req.file ? req.file.path : null; // Get the uploaded file path
 
   try {
+      
+      const user = await User.findById(req.user._id)
       console.log("Creating profile for user ID:", user._id);
-      const user = await User.findById(user._id)
       console.log("founding user")
       if (!user) {
         return res.status(404).json({ error: "User  not found" }); // Handle case where user is not found

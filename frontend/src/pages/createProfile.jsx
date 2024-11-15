@@ -38,7 +38,7 @@ const CreateProfile = () => {
          <div className="flex flex-col justify-center">
           <div className="rounded-lg p-2 h-max px-4 w-[90vh] shadow-sm shadow-neutral-300">
             <h1 className="text-3xl text-white font-bold mb-4">Create Your Profile</h1>
-            <form onSubmit={handleProfileSubmit}>
+            <form>
                 <InputBox onChange={(e) => setLocation(e.target.value)} label={"Location"} placeholder={"Your location"} />
                 <div>
                 <label for="description" className="block text-lg text-white font-serif">Bio (optional)</label>

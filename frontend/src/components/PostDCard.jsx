@@ -10,7 +10,7 @@ const Post = ({ project }) => {
    // Like the project
    const handleLike = async () => {
     try {
-      const response = await axios.post(`/api/projects/${updatedProject._id}/like`);
+      const response = await axios.post(`http://localhost:5000/api/projects/${updatedProject._id}/like`);
       setUpdatedProject(response.data); // Update the local state with the new project data
     } catch (err) {
       console.error('Error liking the project:', err);
@@ -59,18 +59,18 @@ const Post = ({ project }) => {
       <div className="text-white flex items-center mb-2">
         <img
           src={project.createdBy.profilePicture}
-          alt={`${project.createdBy.name}'s profile`}
+          alt={`${project.createdBy.username}'s profile`}
           className="w-8 h-8 rounded-full mr-2"
         />
-        <span>{project.createdBy.name}</span>
+        <span>{project.createdBy.username}</span>
       </div>
       {/* Project Title and Description */}
       
       <p className="text-white mb-2">{project.description}</p>
-      <div className='grid grid-cols-4 pt-2'>
+      <div className='grid grid-cols-4 pt-2 border-t border-b border-r-0 border-l-0 border-[1px] border-neutral-600'>
       {/* Likes Section */}
       <div className="likes flex items-center mb-2">
-        <button onClick={handleLike} className="like-button text-white hover:text-red-600">
+        <button onClick={handleLike} className="px-1 py-1 text-white hover:rounded-full hover:text-pink-600 hover:bg-rose-300">
         <CiHeart className="text-2xl" />
         </button>
         <span className="ml-2">{project.likes.length}</span>
@@ -78,20 +78,20 @@ const Post = ({ project }) => {
 
       {/* Shares Section */}
       <div className="shares flex items-center mb-2">
-        <button onClick={handleShare} className="share-button px-1 py-1 text-white hover:rounded-full hover:bg-blue-600 ">
+        <button onClick={handleShare} className="px-1 py-1 text-white hover:rounded-full hover:text-blue-600 hover:bg-sky-200 ">
           <FiShare className='text-2xl'/>
         </button>
         <span className="ml-2">{project.shares.length}</span>
       </div>
           
       <div className="flex items-center mb-2">
-        <button onClick={handleJoin} className="text-white hover:underline">
+        <button onClick={handleJoin} className="px-1 py-1 text-white hover:rounded-full hover:text-cyan-600 hover:bg-cyan-200">
           <AiOutlineUsergroupAdd className='text-2xl'/>
         </button>
         <span className="ml-2">{project.shares.length}</span>
       </div>   
       {/* Comments Section */}
-      <div className="comments hover:text-green-500">
+      <div className="hover:text-green-500">
         <h3 className="text-md font-semibold mb-1"><FaRegComment className='text-2xl'/> </h3>
         
         {project.comments.map((comment) => (

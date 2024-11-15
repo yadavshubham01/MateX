@@ -18,17 +18,17 @@ function Trending() {
 
       <h3 className="text-lg pt-3 font-bold mb-4">What's happening</h3>
       <div className="space-y-4">
-        <div className="border-b border-gray-700 pb-2">
-          <p>Shubham</p>
+        <div className="border-b border-gray-700 hover:bg-neutral-700 rounded-sm pl-2 pt-2 pb-2">
+          <p>MateX</p>
           <span className="text-white text-sm">9,582 posts</span>
         </div>
-        <div className="border-b border-gray-700 pb-2">
-          <p>Trending in Rajasthan</p>
-          <span className="text-white text-sm">#SI भर्ती_2021_रद्द_करो</span>
+        <div className="border-b border-gray-700  hover:bg-neutral-700 rounded-sm pl-2 pt-2 pb-2">
+          <p>SHUBHAM YADAV</p>
+          <span className="text-white text-sm">Full Stack Engineer</span>
         </div>
-        <div className="border-b border-gray-700 pb-2">
-          <p>Politics</p>
-          <span className="text-white text-sm">#UPPSC_No_Normalization</span>
+        <div className="border-b border-gray-700 hover:bg-neutral-700 rounded-sm pl-2 pt-2 pb-2">
+          <p>Let's Go</p>
+          <span className="text-white text-sm">Chat with each other</span>
         </div>
       </div>
     </div>

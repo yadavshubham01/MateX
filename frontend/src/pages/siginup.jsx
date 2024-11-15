@@ -27,7 +27,7 @@ export const SignUp = ({ isOpen, onClose }) => {
      });
      console.log(res.data.token)
      localStorage.setItem("token",res.data.token)
-     navigate("/create")
+     navigate("/dashboard")
     console.log('Logging in with:', { email, password });
     onClose(); // Close the modal after login
   };
