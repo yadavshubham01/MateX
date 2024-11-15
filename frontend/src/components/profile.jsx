@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
-const UserProfile = ({ profileImage, name, username }) => {
+
+const Profile = () => {
+  const { user } = useContext(AuthContext);
+
+  if (!user) return null;
+  
+
   return (
-    <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg w-64">
-      <img
-        src={profileImage}
-        alt="Profile"
-        className="w-24 h-24 rounded-full object-cover mb-4"
-      />
-      <h2 className="text-lg font-semibold">{name}</h2>
-      <p className="text-gray-500">@{username}</p>
+    <div className='flex flex-row justify-center'>
+      <div className='w-[30%] h-[100%]'>
+      <img src={user.profileImage} 
+      referrerPolicy="no-referrer"
+      alt="Profile" className="w-10 h-10 rounded-full object-cover" />
+      </div>
+      <div className='flex flex-col justify-center'>
+      <h2 className='text-start font-serif'>{user.username}</h2>
+      </div>
     </div>
   );
 };
 
-export default UserProfile;  
+export default Profile;

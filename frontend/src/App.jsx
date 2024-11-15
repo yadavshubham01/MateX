@@ -9,12 +9,14 @@ import { Publish } from './pages/Publisg'
 import Profile from './pages/profile'
 import CreateProfile from './pages/createProfile'
 import { Home } from './pages/Home'
+import { AuthProvider } from './context/AuthContext'
 
 
 function App() {
 
 
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Routes>
          <Route path="/signup" element={<SignUp isOpen={true} onClose={() => navigate(-1)} />} />
@@ -26,6 +28,7 @@ function App() {
          <Route path="/" element={<Home/>}></Route>
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   )
 }
 

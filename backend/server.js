@@ -1,9 +1,11 @@
 const express = require("express");
+const session = require("express-session");
 const http = require("http");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const socketIo = require("socket.io");
 const config = require('./config');
+const passport = require("passport");
 
 const app = express();
 const server = http.createServer(app);
@@ -11,7 +13,18 @@ const io = socketIo(server);
 
 app.use(express.json());
 app.use(cors());
+ // Import the passport setup
 
+ app.use(session({
+  secret: 'Shubham@123', // Replace with your own secret
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using https
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 // Routes
 app.use("/api/auth", require("./routes/user"));
 app.use("/api/projects", require("./routes/project"));

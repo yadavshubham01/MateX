@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import yourImage from '../images/logo.png';
 import { CiHome, CiSearch ,CiCircleMore } from "react-icons/ci";
 import { SignUp } from "../pages/siginup";
+import Profile from "./profile";
+
 function Sidebar() {
    
    const navigate = useNavigate();
@@ -54,7 +56,11 @@ function Sidebar() {
         <span>More</span>
       </button>
       <button onClick={handlePostClick} className="mt-4 w-[90%] px-5 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full">Post</button>  
+      <div className="mt-4 w-[90%] px-5 py-3 rounded-full hover:bg-neutral-900">
+      <Profile />
     </div>
+    </div>
+  
   );
 }
 

@@ -2,7 +2,7 @@ import Feed from "../components/feed";
 import Sidebar from "../components/SideBar";
 import Trending from "../components/Trending";
 
-import { GoArrowLeft } from "react-icons/go";
+
 
 export const Dashboard = () => {
     
@@ -17,6 +17,7 @@ export const Dashboard = () => {
  <Trending/>
  </div>
  </div>
+
 }
 
 

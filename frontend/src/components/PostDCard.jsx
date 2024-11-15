@@ -54,7 +54,7 @@ const Post = ({ project }) => {
 
   return (
       
-    <div className="post bg-black text-white shadow-md rounded-lg p-4 mb-4">
+    <div className="post bg-black text-white shadow-md rounded-lg p-4 mb-4 hover:bg-neutral-900">
       {/* Creator Information */}
       <div className="text-white flex items-center mb-2">
         <img
@@ -79,20 +79,20 @@ const Post = ({ project }) => {
       {/* Shares Section */}
       <div className="shares flex items-center mb-2">
         <button onClick={handleShare} className="px-1 py-1 text-white hover:rounded-full hover:text-blue-600 hover:bg-sky-200 ">
-          <FiShare className='text-2xl'/>
+          <FiShare className='text-lg'/>
         </button>
         <span className="ml-2">{project.shares.length}</span>
       </div>
           
       <div className="flex items-center mb-2">
         <button onClick={handleJoin} className="px-1 py-1 text-white hover:rounded-full hover:text-cyan-600 hover:bg-cyan-200">
-          <AiOutlineUsergroupAdd className='text-2xl'/>
+          <AiOutlineUsergroupAdd className='text-xl'/>
         </button>
         <span className="ml-2">{project.shares.length}</span>
       </div>   
       {/* Comments Section */}
-      <div className="hover:text-green-500">
-        <h3 className="text-md font-semibold mb-1"><FaRegComment className='text-2xl'/> </h3>
+      <div className="hover:text-green-500 flex flex-col justify-center">
+        <h3 className="text-md font-semibold mb-1"><FaRegComment className='text-xl'/> </h3>
         
         {project.comments.map((comment) => (
           <div key={comment.id} className="comment flex items-start mb-2">

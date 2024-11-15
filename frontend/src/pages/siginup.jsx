@@ -1,15 +1,35 @@
 // src/LoginModal.js
-import React, { useState } from 'react';
-import { FcGoogle } from "react-icons/fc";
+import React, { useContext, useState } from 'react';
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../context/AuthContext';
 
+
+
+const clientId = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID || "548854258712-ml0boj0dt3dkb5ot1lud9l8fe7vj17c9.apps.googleusercontent.com";
 export const SignUp = ({ isOpen, onClose }) => {
     const [step, setStep] = useState(1); // Step 1: Username/Email, Step 2: Password
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { login } = useContext(AuthContext);
     const navigate=useNavigate()
+
+    const handleGoogleLogin = async (credentialResponse) => {
+      try {
+        const res = await axios.post("http://localhost:5000/api/auth/google", {
+          idToken: credentialResponse.credential,
+        });
+        
+        localStorage.setItem("token", res.data.token);
+        login(res.data.user);
+        console.log(res)
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Google login failed:", error);
+      }
+    };
 
   if (!isOpen) return null;
   const handleNext = () => {
@@ -33,6 +53,7 @@ export const SignUp = ({ isOpen, onClose }) => {
   };
 
   return (
+    <GoogleOAuthProvider clientId={clientId}>
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-none bg-gray-900/70">
       <div className="relative w-full max-w-md p-6 bg-black rounded-lg shadow-lg">
         <button
@@ -56,11 +77,12 @@ export const SignUp = ({ isOpen, onClose }) => {
           Next
         </button>
         <div className="my-4 text-center text-gray-500">or</div>
-        <button className="flex flex-row justify-center items-center w-full px-4 py-2 mt-6 text-black bg-white rounded hover:bg-gray-300">
-          <FcGoogle className="text-xl" />
-          <span className='pl-3'>Sign in with Google</span>
-        </button>
+        <GoogleLogin // Store your client ID in .env file
+           onSuccess={handleGoogleLogin}
+           onError={() => console.error("Google login failed")}
+        />
         </>
+      
        ) : (
             <>
               {/* Step 2: Password */}
@@ -105,6 +127,7 @@ export const SignUp = ({ isOpen, onClose }) => {
         )}
       </div>
     </div>
+    </GoogleOAuthProvider>
   );
 };
 
