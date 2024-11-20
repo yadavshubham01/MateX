@@ -10,7 +10,13 @@ export const Dashboard = () => {
   <div className="flex flex-row">
  <Sidebar/>
  
- <div className="w-[60%] border-gray-700 border-b border-l-0 border-t-0 border-r-0 border-[1px]">   
+ <div className="w-[60%] border-gray-700 border-b border-l-0 border-t-0 border-r-0 border-[1px]"> 
+ <div className=' flex flex-col items-center pt-2 pb-1 gap-2 border-neutral-800 border-b border-l-0 border-t-0 border-r-0 border-[1px]'>
+        <div className="text-center font-semibold text-xl">
+        For you
+        <div className="bg-sky-500 h-[4px] min-w-[72px] absolute gap-2 rounded-sm"></div>
+        </div>
+    </div>
    <Feed/>
  </div>
  

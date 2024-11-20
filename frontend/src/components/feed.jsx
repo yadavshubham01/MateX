@@ -9,7 +9,7 @@ const Feed = () => {
   const [error, setError] = useState(null);
 
   // Fetch projects from the backend
-  useEffect(() => {
+ 
     const fetchProjects = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/projects/bulk', {
@@ -26,7 +26,7 @@ const Feed = () => {
 
         const data = await response.json();
         setProjects(data);
-        console.log(data)
+        console.log(projects.id)
       } catch (err) {
         setError(err.message);
       } finally {
@@ -34,16 +34,16 @@ const Feed = () => {
       }
     };
 
+  useEffect(() => {
     fetchProjects();
   }, []);
 
   // Display loading or error message if needed
   if (loading) {
     return <div> 
-    <PostSkeleton/>
-    <PostSkeleton/>
-    <PostSkeleton/>
-    <PostSkeleton/>
+     {[...Array(4)].map((_, i) => (
+        <PostSkeleton key={i} />
+      ))}
    </div> 
          
   }  
@@ -51,8 +51,8 @@ const Feed = () => {
 
   // Render each project as a Post component
   return (
-    <div className=" mx-auto mt-8 "> 
-    
+    <div className=""> 
+     
       {projects.map((project) => (
         <Post key={project.id} project={project} />
       ))}

@@ -1,28 +1,37 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { GoPerson } from "react-icons/go";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import { useNavigate } from 'react-router-dom';
 import yourImage from '../images/logo.png';
 import { CiHome, CiSearch ,CiCircleMore } from "react-icons/ci";
-import { SignUp } from "../pages/siginup";
+import { SignIn } from "../pages/signin";
 import Profile from "./profile";
+import { AuthContext } from "../context/AuthContext";
 
 function Sidebar() {
    
    const navigate = useNavigate();
-
+   const {  logout } = useContext(AuthContext);
    const handlePostClick = () => {
      navigate('/publish');  // Navigate to the 'publish' route
    };
-
+   
+   const handleMsgClick = () => {
+    navigate('/msg');  // Navigate to the 'publish' route
+  };
    const handleCreateClick = () => {
     navigate('/create');  // Navigate to the 'publish' route
   };
    const handleHomeClick = () => {
-    navigate('/');  // Navigate to the 'publish' route
+    navigate('/home');  // Navigate to the 'publish' route
   };
-
+  
+  const logOut=() => {
+     logout()    
+    window.location.href = '/';  // Redirect the user to login page
+  }
+  
   const handlePostsClick = () => {
     navigate('/dashboard');  // Navigate to the 'publish' route
   };
@@ -43,7 +52,7 @@ function Sidebar() {
         <IoNotificationsOutline  className="text-3xl" />
         <span>Notifications</span>
       </button>
-      <button className="flex items-center  hover:bg-neutral-700  rounded-full py-2 px-4 font-semibold space-x-2">
+      <button onClick={handleMsgClick} className="flex items-center  hover:bg-neutral-700  rounded-full py-2 px-4 font-semibold space-x-2">
         <HiOutlineEnvelope className="text-3xl" />
         <span>Messages</span>
       </button>
@@ -51,9 +60,9 @@ function Sidebar() {
         <GoPerson className="text-3xl" />
         <span>Profile</span>
       </button>
-      <button onClick={""} className="flex items-center  hover:bg-neutral-700  rounded-full py-2 px-4 font-semibold space-x-2">
+      <button onClick={logOut} className="flex items-center  hover:bg-neutral-700  rounded-full py-2 px-4 font-semibold space-x-2">
         <CiCircleMore className="text-3xl" />
-        <span>More</span>
+        <span>Logout</span>
       </button>
       <button onClick={handlePostClick} className="mt-4 w-[90%] px-5 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full">Post</button>  
       <div className="mt-4 w-[90%] px-5 py-3 rounded-full hover:bg-neutral-900">

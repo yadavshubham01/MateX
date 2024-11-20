@@ -1,132 +1,119 @@
-// src/LoginModal.js
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from "react";
+import { RiTwitterXLine } from "react-icons/ri";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from "react-router-dom";
+import { SignIn } from "./signin";
+import { AuthContext } from "../context/AuthContext";
+import { CreateUser } from "./CreateUser";
 
+const clientId = import.meta.env.VITE_API_GOOGLE_CLIENT_ID ;
 
-
-const clientId = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID || "548854258712-ml0boj0dt3dkb5ot1lud9l8fe7vj17c9.apps.googleusercontent.com";
-export const SignUp = ({ isOpen, onClose }) => {
-    const [step, setStep] = useState(1); // Step 1: Username/Email, Step 2: Password
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const { login } = useContext(AuthContext);
-    const navigate=useNavigate()
+export const SignUp = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalCreateOpen, setModalCreateOpen] = useState(false);
+    const navigate =useNavigate();
+   const {login}=useContext(AuthContext)
+    
 
     const handleGoogleLogin = async (credentialResponse) => {
-      try {
-        const res = await axios.post("http://localhost:5000/api/auth/google", {
-          idToken: credentialResponse.credential,
-        });
-        
-        localStorage.setItem("token", res.data.token);
-        login(res.data.user);
-        console.log(res)
-        navigate("/dashboard");
-      } catch (error) {
-        console.error("Google login failed:", error);
-      }
-    };
-
-  if (!isOpen) return null;
-  const handleNext = () => {
-    if (email.trim()) {
-      setStep(2); // Proceed to Step 2 if username/email is filled
-    }
-  };
-
-  const handleLogin = async() => {
-    // Add your login logic here
-    const res= await axios.post("http://localhost:5000/api/auth/register",{
-        email,
-        password,
-        username
-     });
-     console.log(res.data.token)
-     localStorage.setItem("token",res.data.token)
-     navigate("/dashboard")
-    console.log('Logging in with:', { email, password });
-    onClose(); // Close the modal after login
-  };
-
+        try {
+          const res = await axios.post("http://localhost:5000/api/auth/google", {
+            idToken: credentialResponse.credential,
+          });
+          
+          localStorage.setItem("token", res.data.token);
+          login(res.data.user);
+          console.log(res)
+          navigate("/dashboard");
+        } catch (error) {
+          console.error("Google login failed:", error);
+        }5
+      };
   return (
     <GoogleOAuthProvider clientId={clientId}>
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-none bg-gray-900/70">
-      <div className="relative w-full max-w-md p-6 bg-black rounded-lg shadow-lg">
-        <button
-          className="absolute top-3 right-3 text-gray-400 hover:text-white"
-          onClick={onClose}
-        >
-          &times;
-        </button>
-        
-        <h2 className="text-2xl font-bold text-center text-white mb-4"> {step === 1 ? 'Sign in to X' : 'Enter Password'}</h2> 
-        {step === 1 ? (
-       <> 
-         <input
-          type="text"
-          placeholder="Phone, email ...."
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-2 mb-4 text-black rounded focus:outline-none"
-         />
-        
-        <button onClick={handleNext} className="w-full px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-500">
-          Next
-        </button>
-        <div className="my-4 text-center text-gray-500">or</div>
+    <div className=" bg-black">    
+    <div className="grid grid-cols-2 min-h-screen items-center text-gray-200">
+     
+      <div className="flex flex-col items-center">
+        <div className="text-gray-200">
+        <RiTwitterXLine className="text-[50vh]"/>
+        </div>
+      </div>
+
+      
+      <div className="flex flex-col justify-start">
+        <h1 className="text-7xl text-gray-200 font-bold mb-4">Happening now</h1>
+        <div className="">
+        <h2 className="text-3xl font-extrabold text-gray-200 pt-4 mb-4">Join today</h2>
+        </div>
+        <div className="space-y-4">
+         <div className="w-[40%]">  
         <GoogleLogin // Store your client ID in .env file
            onSuccess={handleGoogleLogin}
            onError={() => console.error("Google login failed")}
+           shape="circle"
         />
-        </>
-      
-       ) : (
-            <>
-              {/* Step 2: Password */}
-              <div className="mb-4">
-              <label className="block mb-1 text-gray-400"> Email</label>
-              <input
-                type="text"
-                value={email}
-                readOnly
-                className="w-full px-4 py-2 mb-2 text-gray-500 bg-gray-800 rounded cursor-not-allowed focus:outline-none"
-              />
-             </div>
-             <input
-                type="password"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-2 mb-4 text-black rounded focus:outline-none"
-              />
-
-              <input
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 mb-4 text-black rounded focus:outline-none"
-              />
-  
-              <button
-                onClick={handleLogin}
-                className="w-full px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-500"
-              >
-                Login
-              </button>
-            </>
-       ) }
-
-            {step === 1 && (
-          <button className="w-full px-4 py-2 mt-2 text-gray-400 hover:underline">
-            Forgot password?
+         </div>
+          <div className="text-gray-200 text-sm my-4 ml-36">or</div>
+          <button onClick={() => {
+            setModalCreateOpen(true)
+           
+            }} className="w-[40%] bg-blue-500 text-white py-2 rounded-full font-medium hover:bg-blue-600">
+            Create account
           </button>
-        )}
+          
+        </div>
+        <div>
+        <p className="text-sm  text-gray-500 w-[40%]">By signing up, you agree to the Terms of Service and 
+            Privacy Policy, including Cookie Use.</p>
+        </div>
+
+        
+        <p className="text-lg mt-6 flex flex-col items-start pt-3 pb-2">
+          Already have an account?
+         <div className="pt-2 w-full">  
+          <button onClick={() => {
+           setModalOpen(true)  // Navigate to the 'publish' route
+        }} className="text-blue-500 w-[40%] bg-black border-neutral-800 border-l border-t border-[1px]  py-2 rounded-full font-semibold hover:bg-neutral-900 ">
+            Sign in
+          </button>
+         </div> 
+        </p>
       </div>
+     </div> 
+     <SignIn isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+      <CreateUser isOpen={isModalCreateOpen} onClose={() => setModalCreateOpen(false)}/>
+      {/* Footer Section */}
+      <footer className="w-full text-center pb-6 bg-black">
+        <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500 mb-4">
+          <a href="#about" className="hover:underline">
+            About
+          </a>
+          <a href="#download" className="hover:underline">
+            Download the X app
+          </a>
+          <a href="#help" className="hover:underline">
+            Help Centre
+          </a>
+          <a href="#privacy" className="hover:underline">
+            Privacy Policy
+          </a>
+          <a href="#cookie-policy" className="hover:underline">
+            Cookie Policy
+          </a>
+          <a href="#ads-info" className="hover:underline">
+            Ads info
+          </a>
+          <a href="#accessibility" className="hover:underline">
+            Accessibility
+          </a>
+        
+        </div>
+        <p className="text-gray-500">© 2024 X Corp.</p>
+      </footer>
     </div>
+    
     </GoogleOAuthProvider>
   );
 };

@@ -12,50 +12,88 @@ exports.createProject = async (req, res) => {
 };
 // Fetch projects to display in feed
 exports.getFeedProjects = async (req, res) => {
-  try {
-    const projects = await Project.find({ createdBy: { $ne: req.user._id } })
-    .populate("createdBy", "name profilePicture") // Fetch creator's name and profile picture
-    .populate("likes", "name profilePicture") // Fetch names and profile pictures of users who liked
-    .populate("shares", "name profilePicture") // Fetch names and profile pictures of users who shared
-    .populate("comments.user", "name profilePicture"); // Fetch names and profile pictures of commenters
-
-  const formattedProjects = projects.map(project => ({
-    id: project._id,
-    title: project.title,
-    description: project.description,
-    createdBy: {
-      id: project.createdBy._id,
-      name: project.createdBy.name,
-      profilePicture: project.createdBy.profilePicture
-    },
-    likes: project.likes.map(user => ({
-      id: user._id,
-      name: user.name,
-      profilePicture: user.profilePicture
-    })),
-    shares: project.shares.map(user => ({
-      id: user._id,
-      name: user.name,
-      profilePicture: user.profilePicture
-    })),
-    comments: project.comments.map(comment => ({
-      id: comment._id,
-      text: comment.text,
-      createdAt: comment.createdAt,
-      user: {
-        id: comment.user._id,
-        name: comment.user.name,
-        profilePicture: comment.user.profilePicture
-      }
-    }))
-  }));
-
-  res.json(formattedProjects);
-    
-  } catch (err) {
-    console.error("Error fetching feed projects:", err);
-    res.status(400).json({ error: err.message });
-  }
+    try {
+      const limit = parseInt(req.query.limit) || 5;
+  
+      // Fetch random posts
+      const projects = await Project.aggregate([
+        { 
+          $match: { createdBy: { $ne: req.user._id } } // Exclude posts by the current user
+        },
+        { 
+          $sample: { size: limit } // Randomly sample the documents
+        },
+        {
+          $lookup: {
+            from: "users", 
+            localField: "createdBy", 
+            foreignField: "_id", 
+            as: "creatorDetails"
+          }
+        },
+        {
+          $unwind: "$creatorDetails"
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "likes",
+            foreignField: "_id",
+            as: "likeDetails"
+          }
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "shares",
+            foreignField: "_id",
+            as: "shareDetails"
+          }
+        },
+        {
+          $lookup: {
+            from: "comments",
+            localField: "_id",
+            foreignField: "project",
+            as: "commentDetails"
+          }
+        },
+        {
+          $project: {
+            description: 1,
+            likes: { $size: "$likeDetails" },
+            shares: { $size: "$shareDetails" },
+            comments: { 
+              $map: {
+                input: "$commentDetails",
+                as: "comment",
+                in: {
+                  id: "$$comment._id",
+                  text: "$$comment.text",
+                  createdAt: "$$comment.createdAt",
+                  user: {
+                    id: "$$comment.user",
+                    username: "$$comment.username",
+                    profileImage: "$$comment.profileImage"
+                  }
+                }
+              }
+            },
+            createdBy: {
+              id: "$creatorDetails._id",
+              username: "$creatorDetails.username",
+              profileImage: "$creatorDetails.profileImage"
+            }
+          }
+        }
+      ]);
+  
+      res.status(200).json(projects);
+      
+    } catch (error) {
+      console.error('Error fetching feed:', error);
+      res.status(500).json({ message: 'Server error' });
+    }  
 };
 
 

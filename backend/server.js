@@ -6,13 +6,25 @@ const cors = require("cors");
 const socketIo = require("socket.io");
 const config = require('./config');
 const passport = require("passport");
+const Message = require("../backend/models/message");
+const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:5173", // Your frontend URL
+    methods: ["GET", "POST"], // Allowed methods
+    credentials: true, // Allow cookies/auth headers
+  },
+});
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // Frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+  credentials: true, // Allow cookies or authentication headers
+}));
  // Import the passport setup
 
  app.use(session({
@@ -26,25 +38,47 @@ app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 // Routes
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.use("/api/auth", require("./routes/user"));
 app.use("/api/projects", require("./routes/project"));
+app.use("/api/messages", require("./routes/message"));
+
 
 // Real-time messaging
 io.on("connection", (socket) => {
   console.log("New client connected");
 
+  // Join a private chat room
   socket.on("joinRoom", ({ room }) => {
     socket.join(room);
+    console.log(`User joined room: ${room}`);
   });
 
-  socket.on("message", ({ room, message }) => {
-    io.to(room).emit("message", message);
+  // Handle sending a message
+  socket.on("sendMessage", async ({ sender, receiver, content, room }) => {
+    try {
+      // Save the message in the database
+      const message = new Message({ sender, receiver, content, room });
+      await message.save();
+
+      // Broadcast the message to the room
+      io.to(room).emit("newMessage", {
+        sender,
+        content,
+        timestamp: message.timestamp,
+      });
+    } catch (err) {
+      console.error("Error saving message:", err);
+    }
   });
 
+  // Disconnect
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
 });
+
 
 mongoose.connect(config.MONGO_URI)
   .then(() => console.log("MongoDB connected successfully"))

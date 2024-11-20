@@ -1,15 +1,17 @@
 // frontend/src/pages/CreateProfile.jsx
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { InputBox } from "../components/InputBox";
 import { Button } from "../components/button";
+import { AuthContext } from '../context/AuthContext';
 
 const CreateProfile = () => {
     const [location, setLocation] = useState("");
     const [bio, setBio] = useState("");
     const [profileImage, setProfileImage] = useState(null); // For profile image
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const handleProfileSubmit = async (e) => {
         e.preventDefault();
@@ -21,12 +23,13 @@ const CreateProfile = () => {
         }
 
         try {
-            await axios.post("http://localhost:5000/api/auth/create", formData, {
+           const res= await axios.post("http://localhost:5000/api/auth/create", formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     'Content-Type': 'multipart/form-data' // Ensure the correct content type is set
                 }
             });
+            login(res.data.user);
             navigate("/dashboard"); // Redirect to dashboard after profile creation
         } catch (error) {
             console.error("Error creating profile:", error);

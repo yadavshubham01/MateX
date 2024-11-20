@@ -7,11 +7,23 @@ const { GOOGLE_CLIENT_ID,JWT_SECRET } = require("../config");
 const User = require('../models/user');
 const router = express.Router();
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+const multer = require("multer");
+const path = require("path");
 
 
 
 const passport = require("passport");
 
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  }),
+}).single('profileImage'); 
 
 router.post("/google", async (req, res) => {
   try{
@@ -36,7 +48,7 @@ router.post("/google", async (req, res) => {
       email: payload.email,
       profileImage: payload.picture,
     });
-    await newUser .save();
+    await newUser.save();
   
     const token = jwt.sign({ userId: newUser ._id }, JWT_SECRET, { expiresIn: "1h" });
     res.json({ token, user: newUser  });
@@ -60,5 +72,5 @@ module.exports = router;
 router.post("/register", register);
 router.post("/login", login);
 router.get("/profile", protect, Profile);
-router.post("/create", protect, createProfile);
+router.post("/create", protect, upload, createProfile);
 module.exports = router;

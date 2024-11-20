@@ -3,8 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 const Project = require("../models/project");
-const multer = require("multer");
-const path = require("path");
 
 // Register a user
 exports.register = async (req, res) => {
@@ -19,16 +17,8 @@ exports.register = async (req, res) => {
   }
 };
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-      cb(null, 'uploads/'); // Specify the folder to save images
-  },
-  filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to filename
-  }
-});
+// Match the key 'profileImage'
 
-const upload = multer({ storage });
 
 exports.createProfile = async (req, res) => {
   const { location, bio } = req.body;
@@ -37,8 +27,6 @@ exports.createProfile = async (req, res) => {
   try {
       
       const user = await User.findById(req.user._id)
-      console.log("Creating profile for user ID:", user._id);
-      console.log("founding user")
       if (!user) {
         return res.status(404).json({ error: "User  not found" }); // Handle case where user is not found
     }
@@ -47,9 +35,14 @@ exports.createProfile = async (req, res) => {
       user.location = location;
       user.bio = bio;
       user.profileImage = profileImage; // Save the profile image path
+      user.profileImage = profileImage ? profileImage.replace('uploads/', '') : null;
       await user.save(); // Save updated user information
+    
 
-      res.status(200).json({ message: "Profile created successfully", user });
+      res.status(200).json({ message: "Profile created successfully", user: {
+        ...user.toObject(),
+        profileImage: user.profileImage ? `http://localhost:5000/${user.profileImage}` : null,
+      }, });
   } catch (err) {
       res.status(400).json({ error: err.message });
   }
@@ -78,12 +71,16 @@ exports.Profile = async (req, res) => {
         const user = await User.findById(req.user._id);
         const posts = await Project.find({ createdBy: user._id });
         const likedPosts = await Project.find({ likes: user._id });
+        
+        const profileImage = user.profileImage || 
+            (user.profileImage ? `http://localhost:5000/${user.profileImage}` : null);
 
         res.json({
             user: {
                 id: user._id,
-                name: user.name,
+                email:user.email,
                 username: user.username,
+                profileImage,
                 location: user.location,
                 bio: user.bio,
             },

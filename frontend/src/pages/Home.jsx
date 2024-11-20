@@ -3,9 +3,10 @@ import Sidebar from "../components/SideBar";
 import Trending from "../components/Trending";
 import { RiTwitterXLine } from "react-icons/ri";
 import { SlLogin } from "react-icons/sl";
-import { SignUp } from "./siginup";
+import { SignIn } from "./signin";
 import { FaGithub } from "react-icons/fa";
 import { MdOutlineMarkEmailUnread } from "react-icons/md";
+import Chat from "../components/Chat";
 
 export const Home = () => {
     const [isModalOpen, setModalOpen] = useState(false);
@@ -45,7 +46,7 @@ export const Home = () => {
       
       
       {/* Blurred background with modal */}
-      <SignUp isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+      <SignIn isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
       </div> 
           </div>
        </div>
