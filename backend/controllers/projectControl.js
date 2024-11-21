@@ -96,6 +96,89 @@ exports.getFeedProjects = async (req, res) => {
     }  
 };
 
+// Fetch a single post's details with comments
+exports.getSingleProject = async (req, res) => {
+  try {
+    const project = await Project.aggregate([
+      {
+        $match: { _id: req.params.id }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "createdBy",
+          foreignField: "_id",
+          as: "creatorDetails"
+        }
+      },
+      {
+        $unwind: "$creatorDetails"
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "likes",
+          foreignField: "_id",
+          as: "likeDetails"
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "shares",
+          foreignField: "_id",
+          as: "shareDetails"
+        }
+      },
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "project",
+          as: "commentDetails"
+        }
+      },
+      {
+        $project: {
+          description: 1,
+          likes: { $size: "$likeDetails" },
+          shares: { $size: "$shareDetails" },
+          comments: {
+            $map: {
+              input: "$commentDetails",
+              as: "comment",
+              in: {
+                id: "$$comment._id",
+                text: "$$comment.text",
+                createdAt: "$$comment.createdAt",
+                user: {
+                  id: "$$comment.user",
+                  username: "$$comment.username",
+                  profileImage: "$$comment.profileImage"
+                }
+              }
+            }
+          },
+          createdBy: {
+            id: "$creatorDetails._id",
+            username: "$creatorDetails.username",
+            profileImage: "$creatorDetails.profileImage"
+          }
+        }
+      }
+    ]);
+
+    if (!project || project.length === 0) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    res.status(200).json(project[0]); // Return the single project with comments
+  } catch (error) {
+    console.error('Error fetching single post:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 exports.likeProject = async (req, res) => {
   try {
@@ -128,7 +211,7 @@ exports.shareProject = async (req, res) => {
   }
 };
 
-// Comment on a project
+// Comment on a project - Updated to handle a specific post and comment section
 exports.commentOnProject = async (req, res) => {
   const { text } = req.body;
 
@@ -140,6 +223,7 @@ exports.commentOnProject = async (req, res) => {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ error: "Project not found" });
 
+    // Add the new comment
     const newComment = {
       user: req.user._id,
       text,
@@ -147,11 +231,12 @@ exports.commentOnProject = async (req, res) => {
 
     project.comments.push(newComment);
     await project.save();
-    res.json(project);
+    res.json(project); // Returning updated project with new comment
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
+
 
 // Join a project team
 exports.joinProject = async (req, res) => {

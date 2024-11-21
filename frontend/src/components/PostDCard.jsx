@@ -7,17 +7,9 @@ import axios from 'axios';
 
 const Post = ({ project }) => {
   const [updatedProject, setUpdatedProject] = useState(project);
-  
+  const [commentText, setCommentText] = useState(""); 
   const [liked, setLiked] = useState(false);
-  // Initial count
-
- 
-
-
-   
-  
-    
-   
+  // Initial coun
   
    // Like the project
    const handleLike = async () => {
@@ -72,23 +64,36 @@ const Post = ({ project }) => {
   };
 
   // Comment on the project
-  const handleComment = async (commentText) => {
+  const handleCommentSubmit = async () => {
     if (!commentText.trim()) {
       return; // Don't submit empty comments
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/projects/projects/${updatedProject.id}/comment`, { text: commentText });
-      setUpdatedProject(response.data); // Update the local state with the new project data
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `http://localhost:5000/api/projects/projects/${updatedProject.id}/comment`,
+        { text: commentText },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUpdatedProject(response.data); // Update project with new comment
+      setCommentText(""); // Clear comment input
     } catch (err) {
       console.error('Error commenting on the project:', err);
     }
   };
+
+  // Redirect to post detail page when the comment button is clicked
+ 
   
 
   return (
       
-    <div className=" bg-black text-white shadow-md rounded-lg p-4 mb-4 hover:bg-neutral-900">
+    <div className=" bg-black text-white shadow-md  p-4 mb-4 hover:bg-neutral-900 border-t-0 border-b border-r-0 border-l-0 border-[1px] border-neutral-600">
       {/* Creator Information */}
       <div className="text-white flex items-center mb-2">
         <img
@@ -130,12 +135,20 @@ const Post = ({ project }) => {
       {/* Shares Section */}
       <div className="shares flex items-center mb-2">
         <button onClick={handleShare} className="px-1 py-1 text-white hover:rounded-full hover:text-blue-600 hover:bg-sky-200 bg-inherit cursor-pointer  ">
-        <div style={{
-          textOverflow:'unset',
-          color:'rgb(113,118,123)'
-        }}>
-        <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5"><g><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"></path></g></svg>
-         </div>
+        <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        className="w-5 h-5 "
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
         </button>
         <span className="ml-2">{project.shares.length}</span>
       </div>
@@ -147,26 +160,42 @@ const Post = ({ project }) => {
         <span className="ml-2">{project.shares.length}</span>
       </div>   
       {/* Comments Section */}
-      <div className="hover:text-green-500 flex flex-col justify-center">
-        <h3 className="text-md font-semibold mb-1"><FaRegComment className='text-xl'/> </h3>
-        
-        {project.comments.map((comment) => (
+      <div className="flex items-center">
+        <h3 className="text-md font-semibold mb-1">
+          <FaRegComment className="text-xl" /> 
+        </h3>        
+        {updatedProject.comments.map((comment) => (
           <div key={comment.id} className="comment flex items-start mb-2">
             <img
-              src={comment.user.profilePicture}
+              src={comment.user.profileImage}
               alt={`${comment.user.name}'s profile`}
               className="w-6 h-6 rounded-full mr-2"
             />
             <div>
-              <span className="font-semibold">{comment.user.name}</span>
+              <span className="font-semibold">{comment.user.username}</span>
               <p className="text-gray-600">{comment.text}</p>
-              <small className="text-gray-400">{new Date(comment.createdAt).toLocaleString()}</small>
-            </div>
-          
+              <small className="text-gray-400">
+              {new Date(comment.createdAt).toLocaleString()}
+              </small>
           </div>
-        ))}
         </div>
+      ))}
+        </div>
+        
       </div>
+      <div className="mb-1 flex flex-row w-[100%] gap-5 mt-2">
+          <textarea
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Add a comment..."
+            className="w-[60%]  rounded bg-black text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          <div className='flex justify-center w-[15%]'>
+          <button onClick={handleCommentSubmit} className=" w-full h-[80%] bg-sky-500 text-white rounded hover:bg-sky-600">
+            Comment
+          </button>
+          </div>
+        </div>
     </div>
   );
 };

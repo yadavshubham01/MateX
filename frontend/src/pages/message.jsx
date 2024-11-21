@@ -1,4 +1,4 @@
-import MessageList from "../components/MessageList";
+import  { MessagingList } from "../components/MessageList";
 import Sidebar from "../components/SideBar";
 import Trending from "../components/Trending";
 
@@ -9,7 +9,7 @@ export const Message = () => {
  <Sidebar/>
  
   <div className='w-[50%]'>
-   <MessageList/>
+   <MessagingList/>
  </div>
  
  <Trending/>

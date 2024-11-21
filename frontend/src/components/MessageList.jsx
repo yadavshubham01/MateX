@@ -1,123 +1,106 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import useSocket from "../hook/useSocket"; // Assuming this is your custom hook for socket connection
-import { v4 as uuidv4 } from "uuid";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Chat from './Chat';
 
-const Chat = ({ currentUser, chatWithUser, roomId }) => {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const messagesEndRef = useRef(null); // To scroll to the latest message
-  const socket = useSocket(); // Assuming this returns a Socket.IO client instance
+export const MessagingList = () => {
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    // Fetch existing messages
-    const fetchMessages = async () => {
+    const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/messages/${roomId}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        setMessages(response.data);
-        console.log(response.data)
-      } catch (err) {
-        console.error("Error fetching messages:", err);
-        setError("Failed to load messages. Please try again.");
-      } finally {
-        setLoading(false);
+        const response = await axios.get('http://localhost:5000/api/auth/all?query=${query}');
+        setUsers(response.data.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
       }
     };
 
-    fetchMessages();
+    fetchUsers();
+  }, []);
 
-    // Listen for new messages
-    socket.current.on("newMessage", (message) => {
-      setMessages((prev) => [...prev, message]);
-    });
 
-    return () => {
-      socket.current.off("newMessage");
-    };
-  }, [roomId, socket]);
+  const profileImageUrl = users.profileImage
 
-  useEffect(() => {
-    // Scroll to the latest message whenever messages update
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  const handleSendMessage = async () => {
-    if (newMessage.trim() === "") return;
-
-    const messageData = {
-      id: uuidv4(), // Generate a unique ID for the message
-      sender: currentUser.id,
-      receiver: chatWithUser.id,
-      content: newMessage,
-      room: roomId,
-      timestamp: new Date().toISOString(), // Add a timestamp
-    };
-
-    try {
-      socket.current.emit("sendMessage", messageData);
-      setMessages((prev) => [...prev, messageData]); // Optimistically update the UI
-      setNewMessage(""); // Clear the input
-    } catch (error) {
-      console.error("Failed to send message:", error);
-      alert("Failed to send message. Please try again.");
-    }
-  };
-
-  if (loading)
-    return <div className="text-center text-gray-500 mt-10">Loading messages...</div>;
-  if (error)
-    return <div className="text-center text-red-500 mt-10">{error}</div>;
+  if (selectedUser) {
+    // Pass required props to the Chat component
+    return (
+      <Chat
+        currentUser={{ id: "currentUserId", username: "currentUsername" }} // Replace with actual user data
+        chatWithUser={selectedUser}
+        roomId={`room-${selectedUser.id}`} // Example room ID logic
+      />
+    );
+  }
+  const limitedUsers = users.slice(0, 7);
 
   return (
-    <div className="flex flex-col h-screen bg-black border border-gray-300">
-      {/* Messages Section */}
-      <div className="flex-1 overflow-y-auto p-4">
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`mb-4 ${
-              msg.sender === currentUser.id ? "text-right" : "text-left"
-            }`}
-          >
-            <div
-              className={`inline-block px-4 py-2 rounded-lg ${
-                msg.sender === currentUser.id
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-800"
-              }`}
-            >
-              <p>{msg.content}</p>
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {new Date(msg.timestamp).toLocaleTimeString()}
-            </p>
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
+    <div className="bg-black text-white h-screen p-4">
+      <div className="flex justify-between items-center border-b border-gray-700 pb-3">
+        <h1 className="text-xl font-bold">Messages</h1>
+        <button className="text-lg text-blue-500 hover:underline">+</button>
       </div>
 
-      {/* Message Input Section */}
-      <div className="p-4 bg-black border-t border-gray-300 flex items-center space-x-2">
+      <div className="mt-3">
         <input
           type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message"
-          className="flex-1 px-4 py-2 rounded-md bg-black border border-gray-300 text-white focus:outline-none focus:ring focus:ring-blue-300"
+          placeholder="Search Direct Messages"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-full bg-gray-800 text-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-blue-500"
         />
-        <button
-          onClick={handleSendMessage}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-        >
-          Send
-        </button>
+      </div>
+
+      <div className="mt-4 space-y-4">
+        {limitedUsers.map((user) => (
+          <div key={user.id} onClick={() => setSelectedUser(user)}
+            className="flex items-center space-x-4 p-2 hover:bg-neutral-800 rounded-md cursor-pointer border-b border-l-0 border-r-0 border-t-0 border-neutral-700"
+          >
+            {/* Profile Picture */}
+           
+      {profileImageUrl ? (
+          <img
+            src={profileImageUrl}
+            referrerPolicy="no-referrer"
+            alt="Profile"
+            className="w-10 h-10 rounded-full object-cover"
+          />
+          ) : (
+          <div className="w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center text-white">
+            {/* Show a placeholder if the image is not available */}
+            <span>A</span>
+          </div>
+          )}
+          
+            {/* Message Details */}
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-1">
+                  <h2 className="font-semibold">{user.username}</h2>
+                  
+                </div>
+                <span className="text-sm text-gray-500">{Date}</span>
+              </div>
+             
+            </div>
+          </div>
+      
+    
+        ))}
       </div>
     </div>
   );
 };
 
-export default Chat;
+
+/*<div className="mt-4 space-y-4">
+        {limitedUsers.map((user) => (
+          <div key={user.id} onClick={() => setSelectedUser(user)}>
+            <h2>{user.username}</h2>
+            <p>{user.email}</p>
+          </div>
+        ))}
+      </div>   
+       
+*/

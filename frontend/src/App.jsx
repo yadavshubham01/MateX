@@ -12,6 +12,7 @@ import { Home } from './pages/Home'
 import { AuthProvider } from './context/AuthContext'
 import { CreateUser } from './pages/CreateUser'
 import { Message } from './pages/message'
+import PostDetail from './pages/Post'
 
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
          <Route path="/create" element={<CreateProfile/>}></Route>
          <Route path="/home" element={<Home/>}></Route>
          <Route path="/msg" element={<Message/>}></Route>
+         <Route path="/post/:postId" element={<PostDetail />} />  
+        <Route path="/post/:postId/comments" element={<PostDetail />} />
       </Routes>
     </BrowserRouter>
     </AuthProvider>

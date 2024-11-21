@@ -67,7 +67,28 @@ router.get("/google/callback", passport.authenticate("google", {
   res.redirect("http://localhost:5173/dashboard"); // Redirect to your frontend
 });
 
-module.exports = router;
+router.get('/all', async (req, res) => {
+  const { query } = req.query; // Get the search query from the request
+  
+  try {
+    let searchQuery = {};
+    if (query) {
+      searchQuery = {
+        $or: [
+          { username: { $regex: query, $options: 'i' } }, // Case-insensitive search by username
+          { email: { $regex: query, $options: 'i' } } // Case-insensitive search by email
+        ]
+      };
+    }
+    
+    const users = await User.find(searchQuery, 'username email profileImage'); // Select only necessary fields
+    res.json({ success: true, data: users });
+  } catch (error) {
+    console.error(error); // Log the error
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
 
 router.post("/register", register);
 router.post("/login", login);

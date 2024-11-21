@@ -59,7 +59,16 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", async ({ sender, receiver, content, room }) => {
     try {
       // Save the message in the database
-      const message = new Message({ sender, receiver, content, room });
+      if (!mongoose.Types.ObjectId.isValid(sender) || !mongoose.Types.ObjectId.isValid(receiver)) {
+        throw new Error("Invalid sender or receiver ID");
+      }
+      const message = new Message({
+        sender: mongoose.Types.ObjectId(sender),
+        receiver: mongoose.Types.ObjectId(receiver),
+        content,
+        room,
+        timestamp: new Date(),
+      });
       await message.save();
 
       // Broadcast the message to the room
