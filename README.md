@@ -20,7 +20,7 @@
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/preview-dark.png">
       <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/preview-light.png">
-      <img src="./frontend//src/images/Screenshot 2024-11-17 210809.png" alt="MateX overview" />
+      <img src="./frontend/src/images/Screenshot 2024-11-17 210809.png" alt="MateX overview" />
     </picture>
   </a>
 </p>
