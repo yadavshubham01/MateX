@@ -11,9 +11,10 @@ const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
+const allowedOrigins = ['https://mate-x.vercel.app', 'http://localhost:5173']; 
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5173,https://mate-x.vercel.app", // Your frontend URL
+    origin: allowedOrigins, // Your frontend URL
     methods: ["GET", "POST"], // Allowed methods
     credentials: true, // Allow cookies/auth headers
   },
@@ -21,7 +22,7 @@ const io = socketIo(server, {
 
 app.use(express.json());
 app.use(cors({
-  origin: "https://mate-x.vercel.app,http://localhost:5173", // Frontend URL
+  origin: allowedOrigins, // Frontend URL
   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
   credentials: true, // Allow cookies or authentication headers
 }));
