@@ -17,7 +17,7 @@ const Profile = () => {
    const profileImageUrl = user.profileImage
    ? (typeof user.profileImage 
      ? user.profileImage // Google profile image or any external URL
-     : `http://localhost:5000/${user.profileImage}`) // Local Multer image
+     : `https://matex.onrender.com/${user.profileImage}`) // Local Multer image
    : null;
 
   return (

@@ -9,7 +9,7 @@ const PostDetail = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/projects/projects/${postId}`);
+        const response = await axios.get(`https://matex.onrender.com/api/projects/projects/${postId}`);
         setPost(response.data);
       } catch (err) {
         console.error("Error fetching post:", err);

@@ -23,7 +23,7 @@ const CreateProfile = () => {
         }
 
         try {
-           const res= await axios.post("http://localhost:5000/api/auth/create", formData, {
+           const res= await axios.post("https://matex.onrender.com/api/auth/create", formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     'Content-Type': 'multipart/form-data' // Ensure the correct content type is set

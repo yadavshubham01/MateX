@@ -18,7 +18,7 @@ const Post = ({ project }) => {
       const token = localStorage.getItem("token")
       const YOUR_USER_ID = localStorage.getItem("userId");
        
-      const response = await axios.post(`http://localhost:5000/api/projects/projects/${updatedProject.id}/like`,{}, {
+      const response = await axios.post(`https://matex.onrender.com/api/projects/projects/${updatedProject.id}/like`,{}, {
         headers: {
             Authorization: `Bearer ${token}` // Include the token in the Authorization header
         }
@@ -37,7 +37,7 @@ const Post = ({ project }) => {
   const handleShare = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.post(`http://localhost:5000/api/projects/projects/${updatedProject.id}/share`,{}, {
+      const response = await axios.post(`https://matex.onrender.com/api/projects/projects/${updatedProject.id}/share`,{}, {
         headers: {
             Authorization: `Bearer ${token}` // Include the token in the Authorization header
         }
@@ -52,7 +52,7 @@ const Post = ({ project }) => {
   const handleJoin = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.post(`http://localhost:5000/api/projects/projects/${updatedProject.id}/join`,{}, {
+      const response = await axios.post(`https://matex.onrender.com/api/projects/projects/${updatedProject.id}/join`,{}, {
         headers: {
             Authorization: `Bearer ${token}` // Include the token in the Authorization header
         }
@@ -72,7 +72,7 @@ const Post = ({ project }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `http://localhost:5000/api/projects/projects/${updatedProject.id}/comment`,
+        `https://matex.onrender.com/api/projects/projects/${updatedProject.id}/comment`,
         { text: commentText },
         {
           headers: {

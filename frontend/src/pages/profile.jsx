@@ -41,7 +41,7 @@ const MidProfile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/auth/profile', {
+                const response = await axios.get('https://matex.onrender.com/api/auth/profile', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
@@ -51,7 +51,7 @@ const MidProfile = () => {
                     profileImage: userData.profileImage && userData.profileImage.startsWith('http')
                      ? userData.profileImage
                      : userData.profileImage
-                     ? `http://localhost:5000/${userData.profileImage}`
+                     ? `https://matex.onrender.com/${userData.profileImage}`
                      : null,});
                 setPosts(response.data.posts);
                 setLikedPosts(response.data.likedPosts);

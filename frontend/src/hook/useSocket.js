@@ -5,7 +5,7 @@ const useSocket = () => {
   const socket = useRef(null);
 
   useEffect(() => {
-    socket.current = io("http://localhost:5000"); // Replace with your backend URL
+    socket.current = io("https://matex.onrender.com"); // Replace with your backend URL
     return () => socket.current.disconnect();
   }, []);
 

@@ -27,7 +27,7 @@ export const Publish = () => {
         onClick={async (e) => {
         e.preventDefault();  // Prevent form submission
        try {
-       await axios.post(`http://localhost:5000/api/projects/projects`, {
+       await axios.post(`https://matex.onrender.com/api/projects/projects`, {
       
         description
        }, {

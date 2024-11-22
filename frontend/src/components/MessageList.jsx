@@ -10,7 +10,7 @@ export const MessagingList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/auth/all?query=${query}');
+        const response = await axios.get('https://matex.onrender.com/api/auth/all?query=${query}');
         setUsers(response.data.data);
       } catch (error) {
         console.error("Error fetching users:", error);

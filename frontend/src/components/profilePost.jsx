@@ -8,7 +8,7 @@ const ProfilePost = ({ description,username,profileImage,shares,likes }) => {
     const profileImageUrl = profileImage
     ? (typeof profileImage === 'string' && profileImage.startsWith('http') 
       ? profileImage // Google profile image or any external URL
-      : `http://localhost:5000/${profileImage}`) // Local Multer image
+      : `https://matex.onrender.com/${profileImage}`) // Local Multer image
     : null;
   return (
       
