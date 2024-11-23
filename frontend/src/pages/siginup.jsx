@@ -33,39 +33,39 @@ export const SignUp = () => {
   return (
     <GoogleOAuthProvider clientId={clientId}>
     <div className=" bg-black">    
-    <div className="grid grid-cols-2 min-h-screen items-center text-gray-200">
+    <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen items-center text-gray-200">
      
-      <div className="flex flex-col items-center">
+      <div className="hidden md:flex flex-col items-center">
         <div className="text-gray-200">
-        <RiTwitterXLine className="text-[50vh]"/>
+        <RiTwitterXLine className="text-[30vh] md:text-[50vh]"/>
         </div>
       </div>
 
       
-      <div className="flex flex-col justify-start">
-        <h1 className="text-7xl text-gray-200 font-bold mb-4">Happening now</h1>
+      <div className="flex flex-col justify-start p-4">
+        <h1 className="text-5xl md:text-7xl text-gray-200 font-bold mb-4">Happening now</h1>
         <div className="">
-        <h2 className="text-3xl font-extrabold text-gray-200 pt-4 mb-4">Join today</h2>
+        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-200 pt-4 mb-4">Join today</h2>
         </div>
         <div className="space-y-4">
-         <div className="w-[40%]">  
+         <div className="w-full md:w-[40%]">  
         <GoogleLogin // Store your client ID in .env file
            onSuccess={handleGoogleLogin}
            onError={() => console.error("Google login failed")}
            shape="circle"
         />
          </div>
-          <div className="text-gray-200 text-sm my-4 ml-36">or</div>
+          <div className="text-gray-200 text-sm my-4 ml-0 lg:ml-36 text-center md:text-left">or</div>
           <button onClick={() => {
             setModalCreateOpen(true)
            
-            }} className="w-[40%] bg-blue-500 text-white py-2 rounded-full font-medium hover:bg-blue-600">
+            }} className="w-full md:w-[40%] bg-blue-500 text-white py-2 rounded-full font-medium hover:bg-blue-600">
             Create account
           </button>
           
         </div>
         <div>
-        <p className="text-sm  text-gray-500 w-[40%]">By signing up, you agree to the Terms of Service and 
+        <p className="text-sm  text-gray-500 w-full md:w-[40%] text-center md:text-left">By signing up, you agree to the Terms of Service and 
             Privacy Policy, including Cookie Use.</p>
         </div>
 
@@ -75,7 +75,7 @@ export const SignUp = () => {
          <div className="pt-2 w-full">  
           <button onClick={() => {
            setModalOpen(true)  // Navigate to the 'publish' route
-        }} className="text-blue-500 w-[40%] bg-black border-neutral-800 border-l border-t border-[1px]  py-2 rounded-full font-semibold hover:bg-neutral-900 ">
+        }} className="text-blue-500 w-full md:w-[40%]  bg-black border-neutral-800 border-l border-t border-[1px]  py-2 rounded-full font-semibold hover:bg-neutral-900 ">
             Sign in
           </button>
          </div> 

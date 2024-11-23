@@ -23,7 +23,6 @@ const PostDetail = () => {
 
   return (
     <div className="post-detail-container bg-black text-white p-4">
-      <h2 className="text-2xl font-bold">{post.title}</h2>
       <p>{post.description}</p>
 
       {/* Comments Section */}
@@ -33,12 +32,12 @@ const PostDetail = () => {
         {post.comments.map((comment) => (
           <div key={comment.id} className="comment flex items-start mb-2">
             <img
-              src={comment.user.profilePicture}
-              alt={`${comment.user.name}'s profile`}
+              src={comment.user.profileImage}
+              alt={`${comment.user.username}'s profile`}
               className="w-6 h-6 rounded-full mr-2"
             />
             <div>
-              <span className="font-semibold">{comment.user.name}</span>
+              <span className="font-semibold">{comment.user.username}</span>
               <p className="text-gray-600">{comment.text}</p>
               <small className="text-gray-400">{new Date(comment.createdAt).toLocaleString()}</small>
             </div>

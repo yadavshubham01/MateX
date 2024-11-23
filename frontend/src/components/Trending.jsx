@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Trending() {
+
+  const [isVisible, setIsVisible] = useState(false); // State to manage visibility
+
+  const toggleTrending = () => {
+    setIsVisible((prev) => !prev); // Toggle visibility
+  };
+
   return (
-    <div className="w-[25%] p-4 min-h-[100vh] bg-black border-gray-700 border-l border-r-0 border-t-0 border-b-0 border-[1px]">
+    <>
+    <div className="md:hidden p-4">
+        <button
+          onClick={toggleTrending}
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full w-full"
+        >
+          {isVisible ? "T" : "T"}
+        </button>
+      </div>
+    <div className={`${
+          isVisible ? "block" : "hidden"
+        } md:block w-full md:w-[25%] p-4 bg-black border-gray-700 border-l md:min-h-[100vh] border-t-0 border-b-0 border-r-0`}>
         
      <form class="max-w-md mx-auto">   
        <label for="default-search" class="mb-2 text-sm font-medium text-gray-300 sr-only dark:text-white">Search</label>
@@ -32,6 +50,7 @@ function Trending() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

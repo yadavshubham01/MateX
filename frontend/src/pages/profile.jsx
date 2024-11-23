@@ -10,15 +10,19 @@ import ProfilePost from '../components/profilePost';
 const Profile = () => {
    
     return (
-        <div className="min-h-[100vh] bg-black text-white ">
+        <div className="min-h-screen bg-black text-white overflow-hidden ">
    <div className="flex flex-row">
+   <div className='w-[10%] md:w-[18%]'>
  <Sidebar/>
+ </div>
  
-  <div className='w-[50%]'>
+  <div className='w-[80%] md:w-[56%]'>
    <MidProfile/>
  </div>
  
- <Trending/>
+ 
+ <Trending  className="w-full md:w-[15%] hidden md:block"/>
+        
  </div>
  </div>
     );
@@ -71,7 +75,7 @@ const MidProfile = () => {
     if (!user) return <div>Loading...</div>;
 
     return (
-        <div className="bg-black text-gray-200">
+        <div className="bg-black text-gray-200 border-gray-700 border-b-0 border-l border-t-0 border-r border-[1px]">
             <div className="p-4">
                 <div className="flex items-center space-x-4">
                 {user.profileImage ? (

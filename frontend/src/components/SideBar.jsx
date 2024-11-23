@@ -10,13 +10,14 @@ import Profile from "./profile";
 import { AuthContext } from "../context/AuthContext";
 
 function Sidebar() {
-   
+  const [isOpen, setIsOpen] = useState(false);
    const navigate = useNavigate();
    const {  logout } = useContext(AuthContext);
    const handlePostClick = () => {
      navigate('/publish');  // Navigate to the 'publish' route
    };
    
+   const handleToggle = () => setIsOpen(!isOpen);
    const handleMsgClick = () => {
     navigate('/msg');  // Navigate to the 'publish' route
   };
@@ -36,7 +37,16 @@ function Sidebar() {
     navigate('/dashboard');  // Navigate to the 'publish' route
   };
   return (
-    <div className="w-[20%] min-h-[100vh] p-4 gap-1 flex flex-col  border-gray-700 border-r border-l-0 border-[1px] border-t-0 border-b-0 space-y-6 bg-black">
+    <>
+     <button
+        className="md:hidden fixed top-4 left-4 z-50 text-white bg-black p-2 rounded-full"
+        onClick={handleToggle}
+      >
+        ☰
+      </button>
+    <div className={`fixed top-0 left-0 h-full bg-black text-white flex flex-col p-4 space-y-6 z-40 transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:w-[18%] transition-transform duration-300 border-gray-700 border-r border-l-0 border-[1px] border-t-0 border-b-0 `}>
       <div className="text-3xl font-semibold">
          <h1>MateX</h1>
       </div>
@@ -69,8 +79,16 @@ function Sidebar() {
       <Profile />
     </div>
     </div>
-  
+    {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-30"
+          onClick={handleToggle}
+        />
+      )}
+  </>
   );
 }
 
 export default Sidebar;
+
+/*w-[20%] min-h-[100vh] p-4 gap-1 flex flex-col  border-gray-700 border-r border-l-0 border-[1px] border-t-0 border-b-0 space-y-6 bg-black*/

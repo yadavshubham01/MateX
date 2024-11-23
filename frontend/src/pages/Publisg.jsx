@@ -12,8 +12,8 @@ export const Publish = () => {
 
     return <div>
         <form>
-     <div className="bg-black min-h-screen md:px-20 pt-6">
-    <div className=" bg-black rounded-md border-2 px-6 py-10 max-w-2xl mx-auto">
+     <div className="bg-black min-h-screen md:px-10 pt-6 overflow-hidden ">
+    <div className=" bg-black rounded-md border-2 px-6 py-10 max-w-xl md:max-w-2xl mx-auto ">
       <h1 className="text-center text-2xl font-bold text-white mb-10">ADD POST</h1>
       <div className="space-y-4">
         <div>
