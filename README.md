@@ -54,49 +54,6 @@ We're actively developing MateX and welcome your feedback. Here are some feature
 + [Comment and provide feedback on projects](#comment-and-provide-feedback)
 + [Track project progress with a timeline](#track-project-progress)
 
-## Create and manage projects:
-
-<p align="center">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/create-project-dark.png">
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/create-project-light.png">
-      <img src="./static/img/create-project-light.png" alt="Create project" />
-    </picture>
-</p>
-
-## Collaborate with team members:
-
-<p align="center">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/collaborate-dark.png">
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/collaborate-light.png">
-      <img src="./static/img/collaborate-light.png" alt="Collaborate" />
-    </picture>
-</p>
-
-## Comment and provide feedback:
-<p align="center">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/comment-dark.png">
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/comment-light.png">
-      <img src="./static/img/comment-light.png" alt="Comment and feedback" />
-    </picture>
-</p>
-
-## Track project progress with a timeline:
-
-<p align="center">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/timeline-dark.png">
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/yadavshubham01/MateX/main/static/img/timeline-light.png">
-      <img src="./static/img/timeline-light.png" alt="Project timeline" />
-    </picture>
-</p>
-
-<br>
-
-
-
 
 # Join the Community
 
