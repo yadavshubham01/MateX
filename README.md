@@ -31,7 +31,7 @@ MateX is designed to empower creators and collaborators by providing a seamless 
 <br>
 
 # Demo 
-Check out our live demo at <a href="https://mate-x.vercel.app/">demo.yadavshubham01.github.io/MateX</a> and use the following credentials:
+Check out our live demo at <a href="https://mate-x.vercel.app/">https://mate-x.vercel.app/</a> and use the following credentials:
 
 
 
