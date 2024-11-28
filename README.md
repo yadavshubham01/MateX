@@ -31,11 +31,9 @@ MateX is designed to empower creators and collaborators by providing a seamless 
 <br>
 
 # Demo 
-Check out our live demo at <a href="https://demo.yadavshubham01.github.io/MateX/">demo.yadavshubham01.github.io/MateX</a> and use the following credentials:
+Check out our live demo at <a href="https://mate-x.vercel.app/">demo.yadavshubham01.github.io/MateX</a> and use the following credentials:
 
-See also:  
-🚀 [Self-hosting](https://github.com/yadavshubham01/MateX/wiki/Self-hosting)  
-🖥️ [Local Setup](https://github.com/yadavshubham01/MateX/wiki/Local-Setup)  
+
 
 # Why Choose MateX?
 In the vast landscape of collaboration tools, here's why MateX stands out:
@@ -97,15 +95,8 @@ We're actively developing MateX and welcome your feedback. Here are some feature
 
 <br>
 
-# What's In Store
 
-Here’s what you can look forward to in the upcoming releases:
 
-⏳ **Frequent updates:** We’re committed to delivering regular updates and new features to enhance your experience.
-
-🔗 **Extensibility:** Soon, you’ll have the tools to extend and customize MateX with plugins and integrations.
-
-<br>
 
 # Join the Community
 
