@@ -64,7 +64,7 @@ router.get("/google/callback", passport.authenticate("google", {
     failureRedirect: '/', // Redirect if authentication fails
 }), (req, res) => {
   // Successful authentication, redirect home or send token
-  res.redirect("http://localhost:5173/dashboard"); // Redirect to your frontend
+  res.redirect("https://mate-x.vercel.app/dashboard"); // Redirect to your frontend
 });
 
 router.get('/all', async (req, res) => {
