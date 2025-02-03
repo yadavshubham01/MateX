@@ -24,12 +24,12 @@ export const MessagingList = () => {
   const profileImageUrl = users.profileImage
 
   if (selectedUser) {
-    // Pass required props to the Chat component
+   
     return (
       <Chat
-        currentUser={{ id: "currentUserId", username: "currentUsername" }} // Replace with actual user data
+        currentUser={{ id: "currentUserId", username: "currentUsername" }} 
         chatWithUser={selectedUser}
-        roomId={`room-${selectedUser.id}`} // Example room ID logic
+        roomId={`room-${selectedUser.id}`} 
       />
     );
   }
@@ -57,7 +57,6 @@ export const MessagingList = () => {
           <div key={user.id} onClick={() => setSelectedUser(user)}
             className="flex items-center space-x-4 p-2 hover:bg-neutral-800 rounded-md cursor-pointer border-b border-l-0 border-r-0 border-t-0 border-neutral-700"
           >
-            {/* Profile Picture */}
            
       {profileImageUrl ? (
           <img
@@ -68,25 +67,19 @@ export const MessagingList = () => {
           />
           ) : (
           <div className="w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center text-white">
-            {/* Show a placeholder if the image is not available */}
+            
             <span>A</span>
           </div>
           )}
-          
-            {/* Message Details */}
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-1">
                   <h2 className="font-semibold">{user.username}</h2>
-                  
                 </div>
                 <span className="text-sm text-gray-500">{Date}</span>
               </div>
-             
             </div>
           </div>
-      
-    
         ))}
       </div>
     </div>
@@ -94,13 +87,3 @@ export const MessagingList = () => {
 };
 
 
-/*<div className="mt-4 space-y-4">
-        {limitedUsers.map((user) => (
-          <div key={user.id} onClick={() => setSelectedUser(user)}>
-            <h2>{user.username}</h2>
-            <p>{user.email}</p>
-          </div>
-        ))}
-      </div>   
-       
-*/

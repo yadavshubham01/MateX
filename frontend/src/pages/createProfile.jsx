@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +8,7 @@ import { AuthContext } from '../context/AuthContext';
 const CreateProfile = () => {
     const [location, setLocation] = useState("");
     const [bio, setBio] = useState("");
-    const [profileImage, setProfileImage] = useState(null); // For profile image
+    const [profileImage, setProfileImage] = useState(null); 
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
 
@@ -19,18 +18,18 @@ const CreateProfile = () => {
         formData.append("location", location);
         formData.append("bio", bio);
         if (profileImage) {
-            formData.append("profileImage", profileImage); // Append image file
+            formData.append("profileImage", profileImage); 
         }
 
         try {
            const res= await axios.post("https://matex.onrender.com/api/auth/create", formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    'Content-Type': 'multipart/form-data' // Ensure the correct content type is set
+                    'Content-Type': 'multipart/form-data'
                 }
             });
             login(res.data.user);
-            navigate("/dashboard"); // Redirect to dashboard after profile creation
+            navigate("/dashboard"); 
         } catch (error) {
             console.error("Error creating profile:", error);
         }

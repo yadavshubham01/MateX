@@ -30,15 +30,3 @@ export const Dashboard = () => {
  </div>
 
 }
-
-
-/*<div className='grid grid-cols-10 pb-3 text-lg'>
-        <div className="justify-start pt-1">
-         <GoArrowLeft className='text-3xl'/>
-        </div>
-        <div className="items-center pt-1 font-bold text-xl">
-        Post
-        </div>
-    </div>
-
-    */

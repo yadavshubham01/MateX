@@ -49,7 +49,7 @@ export const SignUp = () => {
         </div>
         <div className="space-y-4">
          <div className="w-full md:w-[40%]">  
-        <GoogleLogin // Store your client ID in .env file
+        <GoogleLogin 
            onSuccess={handleGoogleLogin}
            onError={() => console.error("Google login failed")}
            shape="circle"
@@ -74,7 +74,7 @@ export const SignUp = () => {
           Already have an account?
          <div className="pt-2 w-full">  
           <button onClick={() => {
-           setModalOpen(true)  // Navigate to the 'publish' route
+           setModalOpen(true)  
         }} className="text-blue-500 w-full md:w-[40%]  bg-black border-neutral-800 border-l border-t border-[1px]  py-2 rounded-full font-semibold hover:bg-neutral-900 ">
             Sign in
           </button>
@@ -84,7 +84,6 @@ export const SignUp = () => {
      </div> 
      <SignIn isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
       <CreateUser isOpen={isModalCreateOpen} onClose={() => setModalCreateOpen(false)}/>
-      {/* Footer Section */}
       <footer className="w-full text-center pb-6 bg-black">
         <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500 mb-4">
           <a href="#about" className="hover:underline">

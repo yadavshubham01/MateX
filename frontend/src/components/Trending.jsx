@@ -2,10 +2,10 @@ import React, { useState } from "react";
 
 function Trending() {
 
-  const [isVisible, setIsVisible] = useState(false); // State to manage visibility
+  const [isVisible, setIsVisible] = useState(false); 
 
   const toggleTrending = () => {
-    setIsVisible((prev) => !prev); // Toggle visibility
+    setIsVisible((prev) => !prev); 
   };
 
   return (

@@ -20,7 +20,7 @@ export const Home = () => {
  
  <div className="flex-grow w-[90%] md:w-[60%] p-4 flex justify-center  items-center bg-black">
           <div className="max-w-2xl w-full bg-neutral-800 rounded-lg p-6 border border-neutral-600">
-            {/* Welcome Section */}
+            
             <div className="text-center mb-6">
               <h1 className="font-semibold text-2xl text-gray-200">
                 WELCOME TO MATEX
@@ -34,7 +34,7 @@ export const Home = () => {
               </p>
             </div>
 
-            {/* Links Section */}
+            
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-around">
               <button
                 onClick={() => setModalOpen(true)}
@@ -66,13 +66,8 @@ export const Home = () => {
               </a>
             </div>
           </div>
-
-          {/* SignIn Modal */}
           <SignIn isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
         </div>
-
-        {/* Trending Section */}
-        
         <Trending  className="w-full md:w-[15%] hidden md:block"/>
       </div>
     </div>

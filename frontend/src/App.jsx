@@ -41,12 +41,12 @@ function App() {
 
 
 function SignInWrapper() {
-  const navigate = useNavigate(); // This works because it is inside the router context
+  const navigate = useNavigate(); 
   return <SignIn isOpen={true} onClose={() => navigate(-1)} />;
 }
 
 function SignUpWrapper() {
-  const navigate = useNavigate(); // This works because it is inside the router context
+  const navigate = useNavigate(); 
   return <CreateUser isOpen={true} onClose={() => navigate(-1)} />;
 }
 export default App

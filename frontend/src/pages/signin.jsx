@@ -1,4 +1,3 @@
-// src/LoginModal.js
 import React, { useContext, useState } from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +8,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const clientId = import.meta.env.VITE_API_GOOGLE_CLIENT_ID ;
 export const SignIn = ({ isOpen, onClose }) => {
-    const [step, setStep] = useState(1); // Step 1: Username/Email, Step 2: Password
+    const [step, setStep] = useState(1);
     const [email, setEmail] = useState('');
    
     const [password, setPassword] = useState('');
@@ -34,12 +33,12 @@ export const SignIn = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const handleNext = () => {
     if (email.trim()) {
-      setStep(2); // Proceed to Step 2 if username/email is filled
+      setStep(2); 
     }
   };
 
   const handleLogin = async() => {
-    // Add your login logic here
+   
     const res= await axios.post("https://matex.onrender.com/api/auth/login",{
         email,
         password
@@ -48,7 +47,7 @@ export const SignIn = ({ isOpen, onClose }) => {
      localStorage.setItem("token",res.data.token)
      navigate("/dashboard")
     console.log('Logging in with:', { email, password });
-    onClose(); // Close the modal after login
+    onClose(); 
   };
 
   return (
@@ -76,7 +75,7 @@ export const SignIn = ({ isOpen, onClose }) => {
           Next
         </button>
         <div className="my-4 text-center text-gray-500">or</div>
-        <GoogleLogin // Store your client ID in .env file
+        <GoogleLogin 
            onSuccess={handleGoogleLogin}
            onError={() => console.error("Google login failed")}
         />
@@ -84,7 +83,6 @@ export const SignIn = ({ isOpen, onClose }) => {
       
        ) : (
             <>
-              {/* Step 2: Password */}
               <div className="mb-4">
               <label className="block mb-1 text-gray-400"> Email</label>
               <input

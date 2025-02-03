@@ -12,12 +12,12 @@ const Profile = () => {
   }
   if (!user) return null;
   
-   // If no user is logged in, return null (or a fallback UI)
+   
 
    const profileImageUrl = user.profileImage
    ? (typeof user.profileImage 
-     ? user.profileImage // Google profile image or any external URL
-     : `https://matex.onrender.com/${user.profileImage}`) // Local Multer image
+     ? user.profileImage 
+     : `https://matex.onrender.com/${user.profileImage}`) 
    : null;
 
   return (
@@ -32,7 +32,7 @@ const Profile = () => {
           />
         ) : (
           <div className="w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center text-white">
-            {/* Show a placeholder if the image is not available */}
+           
             <span>A</span>
           </div>
         )}

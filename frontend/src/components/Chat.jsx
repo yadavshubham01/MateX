@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import useSocket from "../hook/useSocket"; // Assuming this is your custom hook for socket connection
+import useSocket from "../hook/useSocket"; 
 import { v4 as uuidv4 } from "uuid";
 
 const Chat = ({ currentUser, chatWithUser, roomId, onBack}) => {
@@ -8,11 +8,11 @@ const Chat = ({ currentUser, chatWithUser, roomId, onBack}) => {
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const messagesEndRef = useRef(null); // To scroll to the latest message
-  const socket = useSocket(); // Assuming this returns a Socket.IO client instance
+  const messagesEndRef = useRef(null); 
+  const socket = useSocket(); 
 
   useEffect(() => {
-    // Fetch existing messages
+    
     const fetchMessages = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/messages/${roomId}`, {
@@ -29,7 +29,7 @@ const Chat = ({ currentUser, chatWithUser, roomId, onBack}) => {
 
     fetchMessages();
 
-    // Listen for new messages
+    
     socket.current.on("newMessage", (message) => {
       setMessages((prev) => [...prev, message]);
     });
@@ -40,7 +40,7 @@ const Chat = ({ currentUser, chatWithUser, roomId, onBack}) => {
   }, [roomId, socket]);
 
   useEffect(() => {
-    // Scroll to the latest message whenever messages update
+    
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -48,18 +48,18 @@ const Chat = ({ currentUser, chatWithUser, roomId, onBack}) => {
     if (newMessage.trim() === "") return;
 
     const messageData = {
-      id: uuidv4(), // Generate a unique ID for the message
+      id: uuidv4(), 
       sender: currentUser.id,
       receiver: chatWithUser.id,
       content: newMessage,
       room: roomId,
-      timestamp: new Date().toISOString(), // Add a timestamp
+      timestamp: new Date().toISOString(), 
     };
 
     try {
       socket.current.emit("sendMessage", messageData);
-      setMessages((prev) => [...prev, messageData]); // Optimistically update the UI
-      setNewMessage(""); // Clear the input
+      setMessages((prev) => [...prev, messageData]); 
+      setNewMessage(""); 
     } catch (error) {
       console.error("Failed to send message:", error);
       alert("Failed to send message. Please try again.");
@@ -82,7 +82,7 @@ const Chat = ({ currentUser, chatWithUser, roomId, onBack}) => {
         </button>
         <h1 className="text-lg font-bold">{chatWithUser.username}</h1>
       </div>
-      {/* Messages Section */}
+      
       <div className="flex-1 overflow-y-auto p-4">
         {messages.map((msg) => (
           <div
@@ -108,7 +108,7 @@ const Chat = ({ currentUser, chatWithUser, roomId, onBack}) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Message Input Section */}
+     
       <div className="p-4 bg-black border-t border-gray-300 flex items-center space-x-2">
         <input
           type="text"

@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';  // Import useParams
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const PostDetail = () => {
-  const { postId } = useParams();  // Get postId from the URL
+  const { postId } = useParams();
   const [post, setPost] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`https://matex.onrender.com/api/projects/projects/${postId}`);
+        const response = await axios.get(
+          `https://matex.onrender.com/api/projects/projects/${postId}`
+        );
         setPost(response.data);
       } catch (err) {
         console.error("Error fetching post:", err);
@@ -25,7 +27,6 @@ const PostDetail = () => {
     <div className="post-detail-container bg-black text-white p-4">
       <p>{post.description}</p>
 
-      {/* Comments Section */}
       <div className="comment-section">
         <h3 className="text-md font-semibold mb-1">Comments</h3>
 
@@ -39,13 +40,14 @@ const PostDetail = () => {
             <div>
               <span className="font-semibold">{comment.user.username}</span>
               <p className="text-gray-600">{comment.text}</p>
-              <small className="text-gray-400">{new Date(comment.createdAt).toLocaleString()}</small>
+              <small className="text-gray-400">
+                {new Date(comment.createdAt).toLocaleString()}
+              </small>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Add Comment */}
       <div className="comment-input">
         <textarea
           placeholder="Add a comment..."
